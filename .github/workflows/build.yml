@@ -1,3 +1,4 @@
+# force a build
 name: Build CI
 
 on:
@@ -8,12 +9,12 @@ on:
       - 'bugfix/**' 
   workflow_dispatch:
 env:  
-  OCTOPUS_PROJECT_NAME: Trident
+  OCTOPUS_PROJECT_NAME: trident
   OCTOPUS_FEATURE_BRANCH_CHANNEL: Default
-  OCTOPUS_FEATURE_BRANCH_ENVIRONMENT: Development
+  OCTOPUS_FEATURE_BRANCH_ENVIRONMENT: dev
   OCTOPUS_RELEASE_CHANNEL: Release
-  OCTOPUS_RELEASE_ENVIRONMENT: Staging  
-  OCTOPUS_SPACE: Integration-Flyway
+  OCTOPUS_RELEASE_ENVIRONMENT: staging  
+  OCTOPUS_SPACE: Default
   OCTOPUS_API_KEY: ${{ secrets.OCTOPUSSERVERAPIKEY }}
   OCTOPUS_URL: ${{ secrets.OCTOPUSSERVERURL }}
 jobs:
@@ -111,12 +112,7 @@ jobs:
           base_path: "artifacts/database"
           files: "**/*"
           output_folder: packaged
-      
-      - name: Upload artifacts to GitHub
-        uses: actions/upload-artifact@v3
-        with:
-          name: assets-for-download
-          path: packaged
+  
           
       - name: push packages to Octopus
         uses: OctopusDeploy/push-package-action@v3
