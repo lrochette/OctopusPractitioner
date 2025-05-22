@@ -9,7 +9,8 @@ on:
       - 'bugfix/**' 
   workflow_dispatch:
 env:  
-  OCTOPUS_PROJECT_NAME: trident
+  OCTOPUS_TENANT_NAME: Internal
+  OCTOPUS_PROJECT_NAME: Trident Tenancy
   OCTOPUS_FEATURE_BRANCH_CHANNEL: Default
   OCTOPUS_FEATURE_BRANCH_ENVIRONMENT: dev
   OCTOPUS_RELEASE_CHANNEL: Release
@@ -137,9 +138,10 @@ jobs:
           package_version: ${{ steps.ReleaseNum.outputs.APP_VERSION }}
       
       - name: deploy release
-        uses: OctopusDeploy/deploy-release-action@v3
+        uses: OctopusDeploy/deploy-release-tenated-action@v3
         id: "deploy_release"
         with:
           project: ${{ env.OCTOPUS_PROJECT_NAME }}
           release_number: ${{ steps.ReleaseNum.outputs.APP_VERSION }}
           environments: ${{ steps.ReleaseNum.outputs.OCTOPUS_ENVIRONMENT }}
+          tenans: ${{ env.OCTOPUS_TENANT_NAME }}
