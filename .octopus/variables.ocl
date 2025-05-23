@@ -1,0 +1,47 @@
+variable "ConnectionStrings:Database" {
+    value "#{Project.Connection.String}" {}
+}
+
+variable "Octopus.ServiceNow.ChangeRequest.Number" {
+    value {
+        environment = ["prod"]
+
+        prompt {
+            description = ""
+            display_settings = {
+                Octopus.ControlType = "MultiLineText"
+            }
+            label = "ServiceNow Change Request"
+        }
+    }
+}
+
+variable "Project.Connection.String" {
+    value "Server=#{Project.Database.Server.Name};Integrated Security=true;Database=#{Project.Database.Name}" {}
+}
+
+variable "Project.Database.Name" {
+    value "Trident_dev" {
+        environment = ["dev"]
+    }
+
+    value "Trident_staging" {
+        environment = ["staging"]
+    }
+
+    value "Trident_test" {
+        environment = ["test"]
+    }
+
+    value "Trident_#{Octopus.Environment.Name}" {
+        environment = ["prod"]
+    }
+}
+
+variable "Project.Database.Report.Path" {
+    value "C:\\DatabaseReports\\#{Octopus.Environment.Name}" {}
+}
+
+variable "Project.Database.Server.Name" {
+    value "(localdb)\\MSSQLLocalDB" {}
+}
