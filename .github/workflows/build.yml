@@ -7,6 +7,7 @@ on:
       - main
       - 'feature/**'
       - 'bugfix/**' 
+      - 'features/**'
   workflow_dispatch:
 env:  
   # OCTOPUS_TENANT_NAME: Internal
